@@ -127,12 +127,21 @@ The JSON object MUST strictly follow this exact structure and key names. DO NOT 
 
 async function generatePdfFromHtml(htmlContent) {
   const browser = await puppeteer.launch({
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
+    headless: true, // Server par headless true hona zaroori hai
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage', // 👇 YEH SABSE ZAROORI HAI RENDER KE LIYE
+      '--disable-gpu'
+    ]
   })
   const page = await browser.newPage()
   await page.setContent(htmlContent, { waitUntil: "networkidle0" })
 
-  const pdfBuffer = await page.pdf({ format: "A4", margin: { top: "1cm", bottom: "1cm", left: "1cm", right: "1cm" } })
+  const pdfBuffer = await page.pdf({
+    format: "A4",
+    margin: { top: "1cm", bottom: "1cm", left: "1cm", right: "1cm" }
+  })
 
   await browser.close()
 
