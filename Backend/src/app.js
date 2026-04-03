@@ -6,7 +6,7 @@ const app = express()
 app.use(express.json())
 app.use(cookieParser())
 
-const allowedOrigins = ['http://localhost:5173', 'https://interview-ai-1-dqme.onrender.com'];
+const allowedOrigins = ['http://localhost:5173', 'https://interview-ai-gamma-amber.vercel.app'];
 
 app.use(cors({
     origin: function (origin, callback) {
