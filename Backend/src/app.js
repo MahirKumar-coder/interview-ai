@@ -6,9 +6,16 @@ const app = express()
 app.use(express.json())
 app.use(cookieParser())
 
-// 👇 FIX: CORS set for both local and live Vercel frontend
+const allowedOrigins = ['http://localhost:5173', 'https://interview-ai-1-dqme.onrender.com'];
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true
 }))
 
